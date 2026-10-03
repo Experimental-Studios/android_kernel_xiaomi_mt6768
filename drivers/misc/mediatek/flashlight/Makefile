@@ -2,8 +2,8 @@
 # Makefile for the kernel flashlight device drivers.
 #
 
-flashlight-y := flashlight-core.o
-flashlight-y += flashlight-device.o
+flashlight-y := flashlight_core.o
+flashlight-y += flashlight_device.o
 
 obj-$(CONFIG_MTK_FLASHLIGHT)             += flashlight.o
 obj-$(CONFIG_MTK_V4L2_FLASHLIGHT)        += mtk-composite.o
@@ -32,7 +32,13 @@ MTK_PLATFORM := $(subst ",,$(CONFIG_MTK_PLATFORM))
 MTK_PROJECT := $(subst ",,$(CONFIG_ARCH_MTK_PROJECT))
 MTK_CUSTOM_PATH := $(srctree)/drivers/misc/mediatek
 
-ccflags-y += -D$(MTK_PLATFORM) -D$(MTK_PROJECT)
+ifneq ($(strip $(MTK_PLATFORM)),)
+ccflags-y += -D$(MTK_PLATFORM)
+endif
+
+ifneq ($(strip $(MTK_PROJECT)),)
+ccflags-y += -D$(MTK_PROJECT)
+endif
 ifeq ($(CONFIG_MTK_FLASHLIGHT_AW3644),y)
 ccflags-y += -DCONFIG_MTK_FLASHLIGHT_AW3644
 endif
@@ -42,4 +48,3 @@ subdir-ccflags-y += \
 	-I$(MTK_CUSTOM_PATH)/pmic/include \
 	-I$(MTK_CUSTOM_PATH)/pmic \
 	-I$(MTK_CUSTOM_PATH)/power_throttling
-
