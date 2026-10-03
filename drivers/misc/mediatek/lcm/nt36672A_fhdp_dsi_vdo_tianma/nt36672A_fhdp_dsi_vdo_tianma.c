@@ -301,7 +301,8 @@ static void lcm_init_power(void)
 	LCM_LOGI("[nt36672A] %s exit\n", __func__);
 }
 
-extern bool nvt_gesture_flag;
+bool nvt_gesture_flag = false;
+int nvt_update_firmware(char *name) { return 0; }
 
 static void lcm_suspend_power(void)
 {
